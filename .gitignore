@@ -1,0 +1,32 @@
+# Environment
+config/.env
+.env
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Runtime
+storage/
+*.log
+*.tmp
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Composer
+vendor/
+composer.lock
+
+# Uploads (keep structure, ignore files)
+uploads/*
+!uploads/.gitkeep
+
+# Temp
+cookie.txt
+cc*.txt
+cook*.txt
