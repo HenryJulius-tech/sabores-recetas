@@ -13,7 +13,7 @@ class DashboardController extends Controller
         $total_ingresos = \App\Core\Database::fetchOne("SELECT COALESCE(SUM(total),0) as s FROM matriculas WHERE status='approved'")['s'] ?? 0;
         $total_gastos = \App\Core\Database::fetchOne("SELECT COALESCE(SUM(amount),0) as s FROM movimientos WHERE type='gasto'")['s'] ?? 0;
         $balance = $total_ingresos - $total_gastos;
-        $recent = \App\Core\Database::fetchAll("SELECT m.*, u.username as creador FROM movimientos m LEFT JOIN usuarios u ON m.user_id=u.id ORDER BY m.id DESC LIMIT 10");
+        $recent = \App\Core\Database::fetchAll("SELECT m.*, u.username as creador FROM movimientos m LEFT JOIN usuarios u ON m.created_by_id=u.id ORDER BY m.id DESC LIMIT 10");
         $this->view('dashboard.index', [
             'title' => 'Dashboard', 'total_ingresos' => $total_ingresos,
             'total_gastos' => $total_gastos, 'balance' => $balance,

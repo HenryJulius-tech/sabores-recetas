@@ -17,6 +17,7 @@ class UserController extends Controller
     public function store()
     {
         $data = $_POST;
+        unset($data['_token']);
         if (empty($data['username']) || empty($data['password'])) {
             Session::setFlash('error', 'Usuario y contraseña requeridos');
             $this->redirectBack();

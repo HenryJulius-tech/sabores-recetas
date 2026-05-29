@@ -76,13 +76,18 @@ CREATE TABLE movimientos (
   matricula_id int(11) DEFAULT NULL,
   type varchar(20) NOT NULL,
   description text,
+  category varchar(100) DEFAULT '',
+  forma_pago varchar(50) DEFAULT '',
+  proveedor_beneficiario varchar(200) DEFAULT '',
+  soporte_url varchar(255) DEFAULT '',
+  observaciones text,
   amount decimal(12,2) NOT NULL,
-  user_id int(11) DEFAULT NULL,
+  created_by_id int(11) DEFAULT NULL,
   status varchar(20) DEFAULT 'approved',
   date datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (id),
-  KEY user_id (user_id),
-  CONSTRAINT movimientos_ibfk_1 FOREIGN KEY (user_id) REFERENCES usuarios (id) ON DELETE SET NULL
+  KEY created_by_id (created_by_id),
+  CONSTRAINT movimientos_ibfk_1 FOREIGN KEY (created_by_id) REFERENCES usuarios (id) ON DELETE SET NULL
 ) ENGINE=InnoDB;
 
 -- Admin por defecto: admin / admin123
