@@ -1,76 +1,90 @@
-﻿-- Finca Bananera v2 - Schema Completo
-CREATE DATABASE IF NOT EXISTS finca_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE finca_db;
+-- Sabores & Recetas - Schema Completo
+CREATE DATABASE IF NOT EXISTS sabores_recetas CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE sabores_recetas;
 
-CREATE TABLE IF NOT EXISTS usuarios (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(80) NOT NULL UNIQUE,
-    email VARCHAR(120) NOT NULL UNIQUE,
-    password_hash VARCHAR(255) NOT NULL,
-    role VARCHAR(20) NOT NULL DEFAULT 'client',
-    address VARCHAR(200),
-    phone VARCHAR(20),
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+CREATE TABLE usuarios (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  username varchar(80) NOT NULL,
+  email varchar(120) NOT NULL,
+  password_hash varchar(255) NOT NULL,
+  role varchar(20) DEFAULT 'client',
+  address varchar(200) DEFAULT '',
+  phone varchar(20) DEFAULT '',
+  created_at datetime DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  UNIQUE KEY username (username),
+  UNIQUE KEY email (email)
 ) ENGINE=InnoDB;
 
-CREATE TABLE IF NOT EXISTS productos (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    price DECIMAL(10,2) NOT NULL,
-    stock INT NOT NULL DEFAULT 0,
-    description TEXT,
-    image_url VARCHAR(200),
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+CREATE TABLE categorias (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  name varchar(100) NOT NULL,
+  description text,
+  image_url varchar(255) DEFAULT '',
+  created_at datetime DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id)
 ) ENGINE=InnoDB;
 
-CREATE TABLE IF NOT EXISTS compras (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT NOT NULL,
-    total DECIMAL(10,2) NOT NULL,
-    forma_pago VARCHAR(50) DEFAULT '',
-    status VARCHAR(20) NOT NULL DEFAULT 'pending',
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES usuarios(id) ON DELETE CASCADE
+CREATE TABLE cursos (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  category_id int(11) NOT NULL,
+  title varchar(200) NOT NULL,
+  description text,
+  price decimal(12,2) NOT NULL,
+  image_url varchar(255) DEFAULT '',
+  duration varchar(50) DEFAULT '',
+  level varchar(30) DEFAULT 'principiante',
+  instructor varchar(100) DEFAULT '',
+  featured tinyint(1) DEFAULT 0,
+  status varchar(20) DEFAULT 'active',
+  created_at datetime DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  KEY category_id (category_id),
+  CONSTRAINT cursos_ibfk_1 FOREIGN KEY (category_id) REFERENCES categorias (id) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
-CREATE TABLE IF NOT EXISTS detalle_compras (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    compra_id INT NOT NULL,
-    product_id INT NOT NULL,
-    quantity INT NOT NULL,
-    price DECIMAL(10,2) NOT NULL,
-    FOREIGN KEY (compra_id) REFERENCES compras(id) ON DELETE CASCADE,
-    FOREIGN KEY (product_id) REFERENCES productos(id) ON DELETE CASCADE
+CREATE TABLE matriculas (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  user_id int(11) NOT NULL,
+  curso_id int(11) NOT NULL,
+  total decimal(12,2) NOT NULL,
+  status varchar(20) DEFAULT 'pending',
+  created_at datetime DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  KEY user_id (user_id),
+  KEY curso_id (curso_id),
+  CONSTRAINT matriculas_ibfk_1 FOREIGN KEY (user_id) REFERENCES usuarios (id) ON DELETE CASCADE,
+  CONSTRAINT matriculas_ibfk_2 FOREIGN KEY (curso_id) REFERENCES cursos (id) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
-CREATE TABLE IF NOT EXISTS pagos (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    compra_id INT NOT NULL,
-    proof_image_url VARCHAR(200) DEFAULT '',
-    forma_pago VARCHAR(50) DEFAULT '',
-    status VARCHAR(20) NOT NULL DEFAULT 'pending',
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (compra_id) REFERENCES compras(id) ON DELETE CASCADE
+CREATE TABLE pagos (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  matricula_id int(11) NOT NULL,
+  amount decimal(12,2) NOT NULL,
+  payment_method varchar(50) DEFAULT '',
+  reference varchar(100) DEFAULT '',
+  proof_image_url varchar(255) DEFAULT '',
+  status varchar(20) DEFAULT 'pending',
+  created_at datetime DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  KEY matricula_id (matricula_id),
+  CONSTRAINT pagos_ibfk_1 FOREIGN KEY (matricula_id) REFERENCES matriculas (id) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
-CREATE TABLE IF NOT EXISTS movimientos (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    compra_id INT NULL,
-    type VARCHAR(10) NOT NULL,
-    amount DECIMAL(10,2) NOT NULL,
-    forma_pago VARCHAR(50) DEFAULT '',
-    soporte_url VARCHAR(200) DEFAULT '',
-    observaciones TEXT,
-    status ENUM('pending','approved','rejected') DEFAULT 'approved',
-    description VARCHAR(200) NOT NULL,
-    category VARCHAR(50) DEFAULT '',
-    proveedor_beneficiario VARCHAR(100) DEFAULT '',
-    date DATE NOT NULL,
-    created_by_id INT NOT NULL,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (created_by_id) REFERENCES usuarios(id) ON DELETE CASCADE
+CREATE TABLE movimientos (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  matricula_id int(11) DEFAULT NULL,
+  type varchar(20) NOT NULL,
+  description text,
+  amount decimal(12,2) NOT NULL,
+  user_id int(11) DEFAULT NULL,
+  status varchar(20) DEFAULT 'approved',
+  date datetime DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  KEY user_id (user_id),
+  CONSTRAINT movimientos_ibfk_1 FOREIGN KEY (user_id) REFERENCES usuarios (id) ON DELETE SET NULL
 ) ENGINE=InnoDB;
 
--- Admin por defecto (password: admin123)
+-- Admin por defecto: admin / admin123
 INSERT IGNORE INTO usuarios (username, email, password_hash, role) VALUES
-('admin', 'admin@fincalakaren.com', '$2y$10$wT6qL/A19S99c1zWlqjLVu.P3BvS/G.R.M9c.Z2V8G6vF1G9k2D2i', 'admin');
+('admin', 'admin@saboresyrecetas.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin');

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title><?= e($title ?? 'Finca Bananera') ?> - Finca Bananera</title>
+<title><?= e($title ?? 'Sabores & Recetas') ?> - Sabores & Recetas</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -13,9 +13,9 @@
 <div class="auth-wrapper">
     <div class="auth-card">
         <div class="auth-header">
-            <i class="bi bi-tree-fill"></i>
-            <h1>Finca Bananera</h1>
-            <p>Sistema de Gestión Agrícola</p>
+            <i class="bi bi-book"></i>
+            <h1>Sabores & Recetas</h1>
+            <p>Plataforma de Cursos de Cocina</p>
         </div>
         <?php $flashes = \App\Core\Session::allFlashes(); ?>
         <?php if (!empty($flashes)): ?>

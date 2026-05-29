@@ -5,13 +5,13 @@
             <a class="list-group-item list-group-item-action active" href="#intro" data-bs-toggle="list">IntroducciÃ³n</a>
             <?php if ($role === 'admin'): ?>
             <a class="list-group-item list-group-item-action" href="#dashboard" data-bs-toggle="list">Dashboard</a>
-            <a class="list-group-item list-group-item-action" href="#productos" data-bs-toggle="list">Productos</a>
-            <a class="list-group-item list-group-item-action" href="#compras" data-bs-toggle="list">Aprobar Compras</a>
+            <a class="list-group-item list-group-item-action" href="#cursos" data-bs-toggle="list">Cursos</a>
+            <a class="list-group-item list-group-item-action" href="#matriculas" data-bs-toggle="list">Aprobar Matrículas</a>
             <a class="list-group-item list-group-item-action" href="#movimientos" data-bs-toggle="list">Movimientos</a>
             <a class="list-group-item list-group-item-action" href="#usuarios" data-bs-toggle="list">Usuarios</a>
             <?php elseif ($role === 'client'): ?>
-            <a class="list-group-item list-group-item-action" href="#tienda" data-bs-toggle="list">Tienda</a>
-            <a class="list-group-item list-group-item-action" href="#comprar" data-bs-toggle="list">CÃ³mo Comprar</a>
+            <a class="list-group-item list-group-item-action" href="#catalogo" data-bs-toggle="list">Catálogo</a>
+            <a class="list-group-item list-group-item-action" href="#matricularse" data-bs-toggle="list">Cómo Matricularse</a>
             <a class="list-group-item list-group-item-action" href="#pagos" data-bs-toggle="list">Pagos</a>
             <?php elseif ($role === 'worker'): ?>
             <a class="list-group-item list-group-item-action" href="#movimientos" data-bs-toggle="list">Movimientos</a>
@@ -21,8 +21,8 @@
     <div class="col-md-9">
         <div class="tab-content card-modern p-4">
             <div class="tab-pane fade show active" id="intro">
-                <h5>Bienvenido a Finca Bananera</h5>
-                <p>Sistema de gestiÃ³n integral para la finca. Permite administrar productos, ventas, movimientos financieros y usuarios.</p>
+                <h5>Bienvenido a Sabores & Recetas</h5>
+                <p>Plataforma de cursos de cocina. Permite administrar cursos, matrículas, movimientos financieros y usuarios.</p>
                 <p>Tu rol actual es: <strong class="text-success"><?= ucfirst($role) ?></strong></p>
                 <hr>
                 <h6>Â¿Necesitas ayuda?</h6>
@@ -38,22 +38,30 @@
                     <li><strong>Ãšltimos movimientos:</strong> Tabla con los 5 movimientos mÃ¡s recientes.</li>
                 </ul>
             </div>
-            <div class="tab-pane fade" id="productos">
-                <h5>GestiÃ³n de Productos</h5>
-                <p>CRUD completo de productos. Desde aquÃ­ puedes crear, editar y eliminar productos del catÃ¡logo.</p>
+            <div class="tab-pane fade" id="cursos">
+                <h5>Gestión de Cursos</h5>
+                <p>CRUD completo de cursos. Desde aquí puedes crear, editar y eliminar cursos del catálogo.</p>
                 <ul>
-                    <li><strong>Crear:</strong> BotÃ³n "Nuevo Producto" â†’ formulario con nombre, precio, stock, descripciÃ³n e imagen.</li>
-                    <li><strong>Editar:</strong> Icono de lÃ¡piz en cada fila de la tabla.</li>
-                    <li><strong>Eliminar:</strong> Icono de papelera (pide confirmaciÃ³n).</li>
-                    <li>El stock se actualiza automÃ¡ticamente al aprobar/rechazar compras.</li>
+                    <li><strong>Crear:</strong> Botón "Nuevo Curso" → formulario con nombre, precio, cupo, descripción e imagen.</li>
+                    <li><strong>Editar:</strong> Icono de lápiz en cada fila de la tabla.</li>
+                    <li><strong>Eliminar:</strong> Icono de papelera (pide confirmación).</li>
+                    <li>El cupo se actualiza automáticamente al aprobar/rechazar matrículas.</li>
                 </ul>
             </div>
-            <div class="tab-pane fade" id="compras">
-                <h5>Aprobar Compras</h5>
-                <p>Revisa las compras realizadas por los clientes, visualiza los comprobantes de pago y aprueba o rechaza.</p>
+            <div class="tab-pane fade" id="matriculas">
+                <h5>Aprobar Matrículas</h5>
+                <p>Revisa las matrículas realizadas por los clientes, visualiza los comprobantes de pago y aprueba o rechaza.</p>
                 <ul>
-                    <li><strong>Aprobar:</strong> Descarga el stock y registra el ingreso financiero automÃ¡ticamente.</li>
-                    <li><strong>Rechazar:</strong> Devuelve el stock al inventario.</li>
+                    <li><strong>Aprobar:</strong> Registra el ingreso financiero automáticamente.</li>
+                    <li><strong>Rechazar:</strong> Libera el cupo del curso.</li>
+                </ul>
+            </div>
+            <div class="tab-pane fade" id="matriculas">
+                <h5>Aprobar Matrículas</h5>
+                <p>Revisa las matrículas realizadas por los clientes, visualiza los comprobantes de pago y aprueba o rechaza.</p>
+                <ul>
+                    <li><strong>Aprobar:</strong> Registra el ingreso financiero automáticamente.</li>
+                    <li><strong>Rechazar:</strong> Libera el cupo del curso.</li>
                 </ul>
             </div>
             <div class="tab-pane fade" id="movimientos">
@@ -75,35 +83,34 @@
                 </ul>
             </div>
             <?php elseif ($role === 'client'): ?>
-            <div class="tab-pane fade" id="tienda">
-                <h5>Tienda</h5>
-                <p>CatÃ¡logo de productos disponibles para la venta. Cada producto muestra nombre, descripciÃ³n, precio y stock.</p>
-                <p>Haz clic en "Agregar" para aÃ±adir productos al carrito.</p>
+            <div class="tab-pane fade" id="catalogo">
+                <h5>Catálogo de Cursos</h5>
+                <p>Catálogo de cursos disponibles. Cada curso muestra nombre, descripción, precio y cupo disponible.</p>
+                <p>Haz clic en "Matricularme" para inscribirte en un curso.</p>
             </div>
-            <div class="tab-pane fade" id="comprar">
-                <h5>CÃ³mo Comprar</h5>
+            <div class="tab-pane fade" id="matricularse">
+                <h5>Cómo Matricularse</h5>
                 <ol>
-                    <li>Navega por la tienda y agrega productos al carrito.</li>
-                    <li>Ajusta las cantidades desde el panel del carrito (lado derecho).</li>
-                    <li>Haz clic en "Confirmar Compra" para generar tu pedido.</li>
-                    <li>Ve a "Mis Compras" para subir el comprobante de pago.</li>
+                    <li>Navega por el catálogo y elige un curso.</li>
+                    <li>Haz clic en "Matricularme" para generar tu solicitud.</li>
+                    <li>Sube el comprobante de pago desde "Mis Matrículas".</li>
+                    <li>Espera la aprobación del administrador.</li>
                 </ol>
             </div>
-            <div class="tab-pane fade" id="pagos">
-                <h5>Pagos</h5>
-                <p>En "Mis Compras" verÃ¡s tus pedidos pendientes. Haz clic en "Subir Pago" para:</p>
+            <div class="tab-pane fade" id="matricularse">
+                <h5>Cómo Matricularse</h5>
                 <ol>
-                    <li>Seleccionar el mÃ©todo de pago (Efectivo, Tarjeta, Transferencia).</li>
-                    <li>Subir una foto del comprobante de pago.</li>
-                    <li>Esperar la aprobaciÃ³n del administrador.</li>
+                    <li>Navega por el catálogo y elige un curso.</li>
+                    <li>Haz clic en "Matricularme" para generar tu solicitud.</li>
+                    <li>Sube el comprobante de pago desde "Mis Matrículas".</li>
+                    <li>Espera la aprobación del administrador.</li>
                 </ol>
-                <p>Una vez aprobado, podrÃ¡s descargar la factura en PDF.</p>
             </div>
             <?php elseif ($role === 'worker'): ?>
             <div class="tab-pane fade" id="movimientos">
                 <h5>Movimientos Financieros</h5>
-                <p>Puedes registrar movimientos (ingresos/gastos), pero quedarÃ¡n pendientes hasta que un admin los apruebe.</p>
-                <p>Usa los filtros para buscar movimientos por tipo, categorÃ­a o texto.</p>
+                <p>Puedes registrar movimientos (ingresos/gastos), pero quedarán pendientes hasta que un admin los apruebe.</p>
+                <p>Usa los filtros para buscar movimientos por tipo, categoría o texto.</p>
             </div>
             <?php endif; ?>
         </div>
