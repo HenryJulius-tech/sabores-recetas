@@ -17,14 +17,14 @@ function url($p = '') {
 function old($k, $d = '') { return $_POST[$k] ?? $d; }
 function selected($v, $c) { return $v == $c ? 'selected' : ''; }
 function truncate($t, $l = 100) { if (mb_strlen($t) <= $l) return $t; return mb_substr($t, 0, $l) . '...'; }
-function stockBadge($s) {
-    if ($s > 10) return '<span class="badge bg-success">' . $s . ' disp.</span>';
-    if ($s > 0) return '<span class="badge bg-warning text-dark">' . $s . ' disp.</span>';
-    return '<span class="badge bg-danger">Agotado</span>';
+function levelBadge($l) {
+    $map = ['principiante'=>'badge-status','intermedio'=>'badge-status pending','avanzado'=>'badge-status rejected'];
+    $c = $map[$l] ?? 'badge-status';
+    return '<span class="' . $c . '">' . ucfirst($l) . '</span>';
 }
 function statusBadge($s) {
-    $map = ['pending'=>'bg-warning text-dark','approved'=>'bg-success','rejected'=>'bg-danger'];
+    $map = ['pending'=>'pending','approved'=>'approved','rejected'=>'rejected'];
     $l = ['pending'=>'Pendiente','approved'=>'Aprobado','rejected'=>'Rechazado'];
-    $c = $map[$s] ?? 'bg-secondary';
-    return '<span class="badge ' . $c . '">' . ($l[$s] ?? $s) . '</span>';
+    $c = $map[$s] ?? 'pending';
+    return '<span class="badge-status ' . $c . '">' . ($l[$s] ?? $s) . '</span>';
 }

@@ -31,7 +31,7 @@
             <div class="metric-icon"><i class="bi bi-inbox"></i></div>
             <div>
                 <div class="metric-value"><?= $compras_pendientes ?></div>
-                <div class="metric-label">Compras Pendientes</div>
+                <div class="metric-label">Matrículas Pendientes</div>
             </div>
         </div>
     </div>
@@ -60,7 +60,7 @@
             </div>
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom">
-                    <span class="fw-medium">Productos</span>
+                    <span class="fw-medium">Cursos</span>
                     <span class="badge-status active fs-6 px-3"><?= $total_productos ?></span>
                 </div>
                 <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom">
@@ -68,12 +68,12 @@
                     <span class="badge-status pending fs-6 px-3"><?= $total_usuarios ?></span>
                 </div>
                 <div class="d-flex justify-content-between align-items-center mb-3">
-                    <span class="fw-medium">Compras Pendientes</span>
+                    <span class="fw-medium">Matrículas Pendientes</span>
                     <span class="badge-status pending fs-6 px-3"><?= $compras_pendientes ?></span>
                 </div>
                 <hr>
-                <a href="<?= url('admin/compras') ?>" class="btn-modern btn-modern-primary w-100 text-center d-block">
-                    <i class="bi bi-inbox me-2"></i>Ir a Aprobaciones
+                <a href="<?= url('admin/enrollments') ?>" class="btn-modern btn-modern-primary w-100 text-center d-block">
+                    <i class="bi bi-inbox me-2"></i>Ir a Matrículas
                 </a>
             </div>
         </div>

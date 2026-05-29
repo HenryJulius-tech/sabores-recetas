@@ -13,22 +13,26 @@ $router->get('logout', 'AuthController@logout');
 // Admin Dashboard
 $router->get('admin', 'DashboardController@index', ['auth','role:admin']);
 $router->get('/', 'DashboardController@index', ['auth','role:admin']);
-// Products
-$router->get('productos', 'ProductController@index', ['auth','role:admin']);
-$router->get('productos/crear', 'ProductController@create', ['auth','role:admin']);
-$router->post('productos/guardar', 'ProductController@store', ['auth','role:admin']);
-$router->get('productos/editar/{id}', 'ProductController@edit', ['auth','role:admin']);
-$router->post('productos/actualizar/{id}', 'ProductController@update', ['auth','role:admin']);
-$router->post('productos/eliminar/{id}', 'ProductController@destroy', ['auth','role:admin']);
-// Shop / Cart
-$router->get('tienda', 'CartController@shop', ['auth']);
+// Courses
+$router->get('cursos', 'CourseController@index', ['auth','role:admin']);
+$router->get('cursos/crear', 'CourseController@create', ['auth','role:admin']);
+$router->post('cursos/guardar', 'CourseController@store', ['auth','role:admin']);
+$router->get('cursos/editar/{id}', 'CourseController@edit', ['auth','role:admin']);
+$router->post('cursos/actualizar/{id}', 'CourseController@update', ['auth','role:admin']);
+$router->post('cursos/eliminar/{id}', 'CourseController@destroy', ['auth','role:admin']);
+// Categories
+$router->get('categorias', 'CategoryController@index', ['auth','role:admin']);
+$router->post('categorias/guardar', 'CategoryController@store', ['auth','role:admin']);
+$router->post('categorias/eliminar/{id}', 'CategoryController@destroy', ['auth','role:admin']);
+// Catalog / Cart
+$router->get('catalogo', 'CartController@shop', ['auth']);
 $router->post('api/carrito/checkout', 'CartController@checkout', ['auth','role:client']);
-$router->get('mis-compras', 'CartController@myPurchases', ['auth','role:client']);
-$router->post('mis-compras/subir-pago', 'CartController@uploadPayment', ['auth','role:client']);
-// Admin Purchases
-$router->get('admin/compras', 'PurchaseController@index', ['auth','role:admin']);
-$router->post('admin/compras/aprobar/{id}', 'PurchaseController@approve', ['auth','role:admin']);
-$router->post('admin/compras/rechazar/{id}', 'PurchaseController@reject', ['auth','role:admin']);
+$router->get('mis-matriculas', 'CartController@myEnrollments', ['auth','role:client']);
+$router->post('mis-matriculas/subir-pago', 'CartController@uploadPayment', ['auth','role:client']);
+// Admin Enrollments
+$router->get('admin/enrollments', 'EnrollmentController@pending', ['auth','role:admin']);
+$router->post('admin/enrollments/aprobar/{id}', 'EnrollmentController@approve', ['auth','role:admin']);
+$router->post('admin/enrollments/rechazar/{id}', 'EnrollmentController@reject', ['auth','role:admin']);
 // Finance / Movements
 $router->get('movimientos', 'MovementController@index', ['auth','role:admin,worker']);
 $router->post('movimientos/crear', 'MovementController@store', ['auth','role:admin,worker']);
