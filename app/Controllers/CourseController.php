@@ -15,7 +15,7 @@ class CourseController extends Controller
     public function create()
     {
         $categorias = Category::all();
-        $this->view('courses.form', ['title' => 'Nuevo Curso', 'categorias' => $categorias]);
+        $this->view('courses.form', ['title' => 'Nuevo Curso', 'curso' => null, 'categorias' => $categorias]);
     }
     public function store()
     {

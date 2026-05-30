@@ -92,4 +92,18 @@ CREATE TABLE movimientos (
 
 -- Admin por defecto: admin / admin123
 INSERT IGNORE INTO usuarios (username, email, password_hash, role) VALUES
-('admin', 'admin@saboresyrecetas.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin');
+('admin', 'admin@saboresyrecetas.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin'),
+('cliente', 'cliente@saboresyrecetas.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'client');
+
+-- Categorias de cursos
+INSERT IGNORE INTO categorias (id, name, description) VALUES
+(1, 'Cocina Italiana', 'Pastas, pizzas y risottos'),
+(2, 'Cocina de mar', 'Pescados y mariscos'),
+(3, 'Repostería', 'Pasteles, postres y panadería'),
+(4, 'Cocina Mexicana', 'Tacos, enchiladas y más'),
+(5, 'Cocina Asiática', 'Sushi, ramen y wok');
+
+-- Cursos de ejemplo
+INSERT IGNORE INTO cursos (id, category_id, title, description, price, duration, level, instructor, featured, status) VALUES
+(1, 1, 'Pasta Artesanal', 'Aprende a hacer pasta fresca desde cero', 150000.00, '8 horas', 'principiante', 'Chef Mario', 1, 'active'),
+(2, 2, 'Curso de cocina de mar', 'Aprende a hacer diferentes platos de mariscos y pescados', 180000.00, '10 horas', 'intermedio', 'Chef Brandon', 1, 'active');

@@ -39,6 +39,7 @@ class AuthController extends Controller
     public function register()
     {
         $data = $_POST;
+        unset($data['_token']);
         if (empty($data['username']) || empty($data['email']) || empty($data['password'])) {
             Session::setFlash('error', 'Todos los campos son requeridos');
             $this->redirect('register');
@@ -71,7 +72,7 @@ class AuthController extends Controller
     {
         $role = Session::userRole();
         if ($role === 'admin') $this->redirect('admin');
-        elseif ($role === 'client') $this->redirect('tienda');
+        elseif ($role === 'client') $this->redirect('catalogo');
         else $this->redirect('movimientos');
     }
 }
