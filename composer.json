@@ -1,6 +1,6 @@
 ﻿{
-    "name": "fincalakaren/sistema-gestion",
-    "description": "Sistema de GestiÃ³n para Finca Bananera",
+    "name": "sabores-recetas/sistema-cursos",
+    "description": "Sabores & Recetas - Sistema de Gesti\u00f3n de Cursos de Cocina",
     "type": "project",
     "require": {
         "dompdf/dompdf": "^2.0"
