@@ -54,7 +54,7 @@
                         <label class="form-label">Imagen</label>
                         <input type="file" name="image" class="form-control" accept="image/*" data-preview="preview">
                         <?php if ($curso && !empty($curso['image_url'])): ?>
-                            <div class="mt-2"><img id="preview" src="<?= asset('uploads/' . $curso['image_url']) ?>" class="image-preview"></div>
+                            <div class="mt-2"><img id="preview" src="<?= upload_url('courses', $curso['image_url']) ?>" class="image-preview"></div>
                         <?php else: ?>
                             <div class="mt-2"><img id="preview" class="image-preview" style="display:none"></div>
                         <?php endif; ?>

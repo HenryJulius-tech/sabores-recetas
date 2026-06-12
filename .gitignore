@@ -22,9 +22,12 @@ storage/
 vendor/
 composer.lock
 
-# Uploads (keep structure, ignore files)
-uploads/*
-!uploads/.gitkeep
+# Public uploads (keep structure, ignore files)
+public/uploads/*
+!public/uploads/.gitkeep
+
+# Legacy uploads directory (locked file, ignore)
+uploads/
 
 # Temp
 cookie.txt

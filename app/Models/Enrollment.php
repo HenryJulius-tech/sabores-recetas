@@ -20,7 +20,11 @@ class Enrollment extends Model
     }
     public static function pending()
     {
-        return \App\Core\Database::fetchAll("SELECT m.*, u.username, c.title as course_title FROM matriculas m JOIN usuarios u ON m.user_id=u.id JOIN cursos c ON m.curso_id=c.id WHERE m.status='pending' ORDER BY m.id DESC");
+        return \App\Core\Database::fetchAll("SELECT m.*, u.username, c.title as course_title, p.status as pago_status, p.proof_image_url FROM matriculas m JOIN usuarios u ON m.user_id=u.id JOIN cursos c ON m.curso_id=c.id LEFT JOIN pagos p ON p.matricula_id=m.id WHERE m.status='pending' ORDER BY m.id DESC");
+    }
+    public static function allWithDetails()
+    {
+        return \App\Core\Database::fetchAll("SELECT m.*, u.username, c.title as course_title, p.status as pago_status, p.proof_image_url FROM matriculas m JOIN usuarios u ON m.user_id=u.id JOIN cursos c ON m.curso_id=c.id LEFT JOIN pagos p ON p.matricula_id=m.id ORDER BY m.id DESC");
     }
     public static function byUser($userId)
     {

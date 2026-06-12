@@ -21,6 +21,7 @@
                         <td class="small text-muted"><?= format_date($u['created_at']) ?></td>
                         <td>
                             <a href="<?= url('usuarios/editar/' . $u['id']) ?>" class="btn-modern btn-modern-outline btn-modern-sm"><i class="bi bi-pencil"></i></a>
+                            <button class="btn-modern btn-modern-primary btn-modern-sm" onclick="resetUserPassword(<?= $u['id'] ?>)" title="Resetear contraseña"><i class="bi bi-key"></i></button>
                             <?php if ($u['id'] != \App\Core\Session::userId()): ?>
                             <form method="post" action="<?= url('usuarios/eliminar/' . $u['id']) ?>" class="d-inline" onsubmit="return confirm('¿Eliminar usuario?')">
                                 <?= csrf_field() ?>
@@ -36,3 +37,21 @@
         </div>
     </div>
 </div>
+
+<?php $scripts = '
+<script>
+function resetUserPassword(id) {
+    if (!confirm("¿Generar enlace de restablecimiento de contraseña para este usuario?")) return;
+    fetch("' . url('api/usuarios/reset-password') . '/" + id, { method: "POST" })
+    .then(function(r){ return r.json() })
+    .then(function(d){
+        if (d.success) {
+            alert("Enlace generado:\\n\\n" + d.link + "\\n\\nCopia este enlace y compártelo con el usuario.");
+        } else {
+            alert("Error: " + (d.error || "Desconocido"));
+        }
+    })
+    .catch(function(){ alert("Error de red"); });
+}
+</script>
+'; ?>

@@ -1,6 +1,6 @@
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h1 class="page-title">Mis Matrículas</h1>
-    <a href="<?= url('cursos') ?>" class="btn-modern btn-modern-primary"><i class="bi bi-book me-1"></i>Ver Cursos</a>
+    <a href="<?= url('catalogo') ?>" class="btn-modern btn-modern-primary"><i class="bi bi-book me-1"></i>Ver Cursos</a>
 </div>
 <?php if (empty($matriculas)): ?>
 <div class="card-modern"><div class="empty-state"><i class="bi bi-mortarboard"></i><p>No tienes matrículas activas</p></div></div>
@@ -16,7 +16,7 @@
                         <td>
                             <div class="d-flex align-items-center gap-2">
                                 <?php if (!empty($m['image_url'])): ?>
-                                    <img src="<?= asset('uploads/' . $m['image_url']) ?>" style="width:40px;height:40px;object-fit:cover;border-radius:6px;">
+                                    <img src="<?= upload_url('courses', $m['image_url']) ?>" style="width:40px;height:40px;object-fit:cover;border-radius:6px;">
                                 <?php endif; ?>
                                 <span class="fw-bold"><?= e($m['course_title']) ?></span>
                             </div>
@@ -41,7 +41,7 @@
                                 <i class="bi bi-upload me-1"></i>Subir Pago
                             </button>
                             <?php elseif ($m['status'] === 'approved'): ?>
-                            <a href="<?= url('factura/' . $m['id']) ?>" class="btn-modern btn-modern-outline btn-modern-sm"><i class="bi bi-file-pdf me-1"></i>Factura</a>
+                            <a href="<?= url('factura/' . $m['id'] . '/html') ?>" class="btn-modern btn-modern-outline btn-modern-sm"><i class="bi bi-file-text me-1"></i>Factura</a>
                             <?php endif; ?>
                         </td>
                     </tr>

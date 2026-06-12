@@ -85,7 +85,7 @@
                                 </form>
                             <?php endif; ?>
                             <?php if (!empty($m['soporte_url'])): ?>
-                            <a href="<?= asset('uploads/' . $m['soporte_url']) ?>" target="_blank" class="btn-modern btn-modern-outline btn-modern-sm" title="Ver soporte"><i class="bi bi-paperclip"></i></a>
+                            <a href="<?= upload_url('documents', $m['soporte_url']) ?>" target="_blank" class="btn-modern btn-modern-outline btn-modern-sm" title="Ver soporte"><i class="bi bi-paperclip"></i></a>
                             <?php endif; ?>
                         </td>
                     </tr>

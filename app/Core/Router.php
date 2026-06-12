@@ -14,6 +14,7 @@ class Router
     {
         $method = $_SERVER['REQUEST_METHOD'];
         $uri = trim(str_replace(dirname($_SERVER['SCRIPT_NAME']), '', parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)), '/');
+        $uri = preg_replace('#^index\.php/?#', '', $uri);
         foreach ($this->routes as $r) {
             if ($r['method'] !== $method) continue;
             $testUri = $r['route'] === '/' ? ($uri === '' ? '/' : null) : $uri;

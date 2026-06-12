@@ -3,6 +3,8 @@ namespace App\Controllers;
 use App\Core\Controller;
 use App\Core\Session;
 use App\Models\Movement;
+use App\Models\Notification;
+use App\Models\AuditLog;
 use App\Helpers\Security;
 class MovementController extends Controller
 {
@@ -33,23 +35,42 @@ class MovementController extends Controller
         if (!empty($_FILES['soporte']['name'])) {
             $upload = Security::validateUpload($_FILES['soporte']);
             if ($upload['valid']) {
-                move_uploaded_file($_FILES['soporte']['tmp_name'], __DIR__ . '/../../uploads/' . $upload['name']);
-                $data['soporte_url'] = $upload['name'];
+                $subdir = 'documents';
+                move_uploaded_file($_FILES['soporte']['tmp_name'], __DIR__ . '/../../public/uploads/' . $subdir . '/' . $upload['name']);
+                $data['soporte_url'] = $subdir . '/' . $upload['name'];
             }
         }
         Movement::create($data);
+        AuditLog::log('Movimiento creado', 'Tipo: ' . $data['type'] . ' - $' . number_format($data['amount'], 0, ',', '.') . ' - Estado: ' . $data['status']);
+        if ($data['status'] === 'pending') {
+            Notification::notifyAdmins('movement', 'Movimiento pendiente de aprobación', Session::username() . ' creó un movimiento por $' . number_format($data['amount'], 0, ',', '.'), 'movimientos');
+        }
         Session::setFlash('success', 'Movimiento creado');
         $this->redirect('movimientos');
     }
     public function approve($id)
     {
+        $m = \App\Core\Database::fetchOne("SELECT * FROM movimientos WHERE id=?", [$id]);
         \App\Core\Database::execute("UPDATE movimientos SET status='approved' WHERE id=?", [$id]);
+        if ($m) {
+            AuditLog::log('Movimiento aprobado', 'Movimiento #' . $id . ' por $' . number_format($m['amount'], 0, ',', '.'));
+            if ($m['created_by_id'] != Session::userId()) {
+                Notification::create($m['created_by_id'], 'movement_approved', 'Movimiento aprobado', 'Tu movimiento #' . $id . ' por $' . number_format($m['amount'], 0, ',', '.') . ' fue aprobado', 'movimientos');
+            }
+        }
         Session::setFlash('success', 'Movimiento aprobado');
         $this->redirect('movimientos');
     }
     public function reject($id)
     {
+        $m = \App\Core\Database::fetchOne("SELECT * FROM movimientos WHERE id=?", [$id]);
         \App\Core\Database::execute("UPDATE movimientos SET status='rejected' WHERE id=?", [$id]);
+        if ($m) {
+            AuditLog::log('Movimiento rechazado', 'Movimiento #' . $id . ' por $' . number_format($m['amount'], 0, ',', '.'));
+            if ($m['created_by_id'] != Session::userId()) {
+                Notification::create($m['created_by_id'], 'movement_rejected', 'Movimiento rechazado', 'Tu movimiento #' . $id . ' por $' . number_format($m['amount'], 0, ',', '.') . ' fue rechazado', 'movimientos');
+            }
+        }
         Session::setFlash('success', 'Movimiento rechazado');
         $this->redirect('movimientos');
     }

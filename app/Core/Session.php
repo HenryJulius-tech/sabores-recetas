@@ -16,6 +16,24 @@ class Session
     public static function userId() { return self::get('user_id'); }
     public static function userRole() { return self::get('role'); }
     public static function username() { return self::get('username'); }
+    public static function userAttribute($key, $default = null)
+    {
+        if ($key === 'full_name' && isset($_SESSION['user']['fullname'])) {
+            return $_SESSION['user']['fullname'];
+        }
+        return $_SESSION['user'][$key] ?? $default;
+    }
+    public static function setUser($userId)
+    {
+        $user = Database::fetchOne("SELECT * FROM usuarios WHERE id=?", [$userId]);
+        if (!$user) return false;
+
+        self::set('user_id', $user['id']);
+        self::set('username', $user['username']);
+        self::set('role', $user['role']);
+        self::set('user', $user);
+        return true;
+    }
     public static function setFlash($key, $message) { $_SESSION['flash'][$key] = $message; }
     public static function getFlash($key)
     {

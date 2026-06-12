@@ -2,7 +2,12 @@
 $role = \App\Core\Session::userRole();
 $u = \App\Core\Session::username();
 $cu = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-function act($p) { global $cu; return strpos($cu, $p) !== false ? 'active' : ''; }
+$base = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/');
+$route = trim(str_replace($base, '', $cu), '/');
+$route = preg_replace('#^index\.php/?#', '', $route);
+function act($p) { global $route; return $route === $p || strpos($route, $p . '/') === 0 ? 'active' : ''; }
+function act_exact($p) { global $route; return $route === $p ? 'active' : ''; }
+$cu = null; $base = null;
 ?>
 <div class="d-flex flex-column flex-shrink-0" id="sidebar">
 <a href="<?= url('admin') ?>" class="brand">
@@ -11,33 +16,30 @@ function act($p) { global $cu; return strpos($cu, $p) !== false ? 'active' : '';
 <hr>
 <ul class="nav nav-pills flex-column mb-auto">
     <?php if ($role === 'admin'): ?>
-    <li><a href="<?= url('admin') ?>" class="nav-link <?= act('admin') ?>"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
+    <li><a href="<?= url('admin') ?>" class="nav-link <?= act_exact('admin') ?>"><i class="bi bi-speedometer2"></i> Inicio</a></li>
     <li><a href="<?= url('cursos') ?>" class="nav-link <?= act('cursos') ?>"><i class="bi bi-mortarboard"></i> Cursos</a></li>
     <li><a href="<?= url('categorias') ?>" class="nav-link <?= act('categorias') ?>"><i class="bi bi-tags"></i> Categorías</a></li>
     <?php endif; ?>
     <?php if ($role === 'client'): ?>
     <li><a href="<?= url('catalogo') ?>" class="nav-link <?= act('catalogo') ?>"><i class="bi bi-shop"></i> Catálogo</a></li>
+    <li><a href="<?= url('mis-cursos') ?>" class="nav-link <?= act('mis-cursos') ?>"><i class="bi bi-play-circle"></i> Mis Cursos</a></li>
     <li><a href="<?= url('mis-matriculas') ?>" class="nav-link <?= act('mis-matriculas') ?>"><i class="bi bi-journal-check"></i> Mis Matrículas</a></li>
     <?php endif; ?>
     <?php if ($role === 'admin'): ?>
-    <li><a href="<?= url('admin/enrollments') ?>" class="nav-link <?= act('enrollments') ?>"><i class="bi bi-inbox"></i> Matrículas Pendientes</a></li>
+    <li><a href="<?= url('admin/enrollments/todas') ?>" class="nav-link <?= act('admin/enrollments') ?>"><i class="bi bi-inbox"></i> Matrículas</a></li>
     <?php endif; ?>
     <?php if (in_array($role, ['admin','worker'])): ?>
     <li><a href="<?= url('movimientos') ?>" class="nav-link <?= act('movimientos') ?>"><i class="bi bi-cash-stack"></i> Movimientos</a></li>
     <?php endif; ?>
     <?php if ($role === 'admin'): ?>
     <li><a href="<?= url('usuarios') ?>" class="nav-link <?= act('usuarios') ?>"><i class="bi bi-people"></i> Usuarios</a></li>
+    <li><a href="<?= url('contactos') ?>" class="nav-link <?= act('contactos') ?>"><i class="bi bi-chat-dots"></i> Contacto</a></li>
+    <li><a href="<?= url('auditoria') ?>" class="nav-link <?= act('auditoria') ?>"><i class="bi bi-shield-exclamation"></i> Auditoría</a></li>
+    <li><a href="<?= url('admin/progreso') ?>" class="nav-link <?= act('admin/progreso') ?>"><i class="bi bi-graph-up-arrow"></i> Progreso</a></li>
     <?php endif; ?>
     <li><a href="<?= url('manual') ?>" class="nav-link <?= act('manual') ?>"><i class="bi bi-book"></i> Manual</a></li>
 </ul>
-<div class="dropdown mt-auto">
-    <a href="#" class="dropdown-toggle d-flex align-items-center" data-bs-toggle="dropdown">
-        <i class="bi bi-person-circle me-2 fs-5"></i><strong><?= e($u) ?></strong>
-    </a>
-    <ul class="dropdown-menu dropdown-menu-dark shadow">
-        <li><span class="dropdown-item-text text-muted small">Rol: <?= e($role) ?></span></li>
-        <li><hr class="dropdown-divider"></li>
-        <li><a class="dropdown-item" href="<?= url('logout') ?>"><i class="bi bi-box-arrow-right me-2"></i>Cerrar sesión</a></li>
-    </ul>
+<div class="sidebar-footer text-center py-3">
+    <small class="text-white-50"><i class="bi bi-book me-1"></i>Sabores & Recetas</small>
 </div>
 </div>

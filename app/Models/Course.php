@@ -34,4 +34,12 @@ class Course extends Model
     {
         return true;
     }
+    public static function byPeriod($period)
+    {
+        return \App\Core\Database::fetchAll("SELECT c.*, cat.name as category_name FROM cursos c JOIN categorias cat ON c.category_id=cat.id WHERE c.period=? AND c.status='active' ORDER BY c.featured DESC, c.id ASC", [$period]);
+    }
+    public static function periods()
+    {
+        return \App\Core\Database::fetchAll("SELECT DISTINCT period FROM cursos WHERE period != '' AND status='active' ORDER BY period ASC");
+    }
 }

@@ -15,7 +15,7 @@
                     <tr>
                         <td>
                             <?php if (!empty($c['image_url'])): ?>
-                                <img src="<?= asset('uploads/' . $c['image_url']) ?>" style="width:50px;height:50px;object-fit:cover;border-radius:8px;">
+                                <img src="<?= upload_url('courses', $c['image_url']) ?>" style="width:50px;height:50px;object-fit:cover;border-radius:8px;">
                             <?php else: ?>
                                 <div class="bg-light rounded" style="width:50px;height:50px;display:flex;align-items:center;justify-content:center"><i class="bi bi-book text-muted"></i></div>
                             <?php endif; ?>
