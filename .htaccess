@@ -1,4 +1,9 @@
-RewriteEngine On
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ public/$1 [L]
+Options -Indexes
+
+# Proteger archivos sensibles
+<FilesMatch "\.(env|sql)$">
+    Deny from all
+</FilesMatch>
+
+# Redirección 404
+ErrorDocument 404 /index.php
