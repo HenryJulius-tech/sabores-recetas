@@ -38,6 +38,9 @@ $_avatarUrl   = avatar_url($_currentUser, 80);
             <a href="<?= BASE_URL ?>admin/auditoria.php" class="nav-link <?= basename($_SERVER['PHP_SELF']) === 'auditoria.php' ? 'active' : '' ?>">
                 <i class="bi bi-clock-history"></i> <span>Auditoría</span>
             </a>
+            <a href="<?= BASE_URL ?>admin/inscripciones/index.php" class="nav-link <?= strpos($_SERVER['PHP_SELF'], '/inscripciones/') !== false ? 'active' : '' ?>">
+                <i class="bi bi-journal-check"></i> <span>Inscripciones</span>
+            </a>
             <a href="<?= BASE_URL ?>admin/pagos/index.php" class="nav-link <?= strpos($_SERVER['PHP_SELF'], '/pagos/') !== false ? 'active' : '' ?>">
                 <i class="bi bi-credit-card-fill"></i> <span>Pagos</span>
             </a>
